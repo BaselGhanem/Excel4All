@@ -177,7 +177,18 @@ if (!DATA) {
 }
 
 // تهيئة نظام تجربة المستخدم
-const userEmail = localStorage.getItem('excelPro_user') || 'guest';
+const ACCESS_START = Date.parse(`2026-09-24T00:00:00+03:00`);
+const ACCESS_END = Date.parse(`2026-10-24T23:59:59+03:00`);
+const storedUser = localStorage.getItem(`excelPro_user`);
+
+if (!storedUser || Date.now() < ACCESS_START || Date.now() > ACCESS_END) {
+  localStorage.removeItem(`excelPro_user`);
+  localStorage.removeItem(`excelPro_role`);
+  localStorage.removeItem(`excelPro_access_until`);
+  window.location.replace(`login.html`);
+}
+
+const userEmail = storedUser;
 const currentUser = new UserExperienceLogic(userEmail);
 currentUser.viewLesson(CURRENT_LEC_ID);
 
@@ -234,12 +245,11 @@ if (DATA.videoUrl && DATA.videoUrl.trim() !== '') {
 // ==========================================
 // 4. نظام المصادقة والتقدم (Progress & Auth)
 // ==========================================
-if (!localStorage.getItem('excelPro_user')) location.href = 'login.html';
-const role = localStorage.getItem('excelPro_role');
+const role = `user`;
 
 function getProgress() {
   const raw = localStorage.getItem('excelPro_progress');
-  let progress = { completed: [], locked: role === 'admin' ? [] : Array.from({length: TOTAL_LESSONS - 1}, (_, i) => i + 2) };
+  let progress = { completed: [], locked: Array.from({length: TOTAL_LESSONS - 1}, (_, i) => i + 2) };
   
   if (raw) {
       try {
@@ -267,7 +277,7 @@ document.querySelectorAll('.pt-nums span:last-child').forEach(el => el.textConte
 function updateUI() {
   const progress = getProgress();
   const isDone = progress.completed.includes(CURRENT_LEC_ID);
-  const isNextLocked = role !== 'admin' && progress.locked.includes(NEXT_ID);
+  const isNextLocked = progress.locked.includes(NEXT_ID);
 
   if (isDone && DATA.videoUrl) {
     document.getElementById('completeIcon').textContent = '✅';
@@ -317,7 +327,7 @@ function goNext() {
   if(NEXT_ID > TOTAL_LESSONS) return; 
   
   const progress = getProgress();
-  if (role !== 'admin' && progress.locked.includes(NEXT_ID) && !progress.completed.includes(CURRENT_LEC_ID)) {
+  if (progress.locked.includes(NEXT_ID) && !progress.completed.includes(CURRENT_LEC_ID)) {
     alert('أكمل هذه المحاضرة أولاً لفتح المحاضرة التالية.'); return;
   }
   location.href = `lectures.html?id=${NEXT_ID}`;
