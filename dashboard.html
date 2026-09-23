@@ -194,23 +194,24 @@ nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-co
 <script src="data.js"></script>
 
 <script>
-// ── AUTH CHECK ──
-const currentUser = localStorage.getItem('excelPro_user');
-const currentRole = localStorage.getItem('excelPro_role');
+// ── AUTH & EXPIRY CHECK ──
+const ACCESS_START = Date.parse(`2026-09-24T00:00:00+03:00`);
+const ACCESS_END = Date.parse(`2026-10-24T23:59:59+03:00`);
+const currentUser = localStorage.getItem(`excelPro_user`);
+const currentRole = `user`;
 
-if (!currentUser) {
-  window.location.href = 'login.html';
-} else if (currentRole === 'guest') {
-  alert('عذراً، هذا المحتوى غير متاح في وضع الضيف. يرجى تسجيل الدخول بحسابك للوصول إلى الدورة.');
-  window.location.href = 'login.html';
+if (!currentUser || Date.now() < ACCESS_START || Date.now() > ACCESS_END) {
+  localStorage.removeItem(`excelPro_user`);
+  localStorage.removeItem(`excelPro_role`);
+  localStorage.removeItem(`excelPro_access_until`);
+  window.location.replace(`login.html`);
 }
 
 // ── UI SETUP ──
 document.getElementById('userName').textContent = currentUser;
 document.getElementById('greetName').textContent = currentUser;
 document.getElementById('avatarInitial').textContent = currentUser.charAt(0).toUpperCase();
-if (currentRole === 'admin') document.getElementById('adminBadge').style.display = 'inline-flex';
-if (currentRole === 'guest') document.getElementById('guestBadge').style.display = 'inline-flex';
+
 
 // ── PROGRESS LOGIC ──
 const TOTAL_LESSONS = CourseService.getAllLessons().length;
@@ -218,7 +219,7 @@ const TOTAL_LESSONS = CourseService.getAllLessons().length;
 function getProgress() {
   const raw = localStorage.getItem('excelPro_progress');
   if (raw) return JSON.parse(raw);
-  return { completed: [], locked: currentRole === 'admin' ? [] : Array.from({length: TOTAL_LESSONS - 1}, (_, i) => i + 2) };
+  return { completed: [], locked: Array.from({length: TOTAL_LESSONS - 1}, (_, i) => i + 2) };
 }
 
 // ── ICONS MAP ──
@@ -235,7 +236,7 @@ function renderCards(filter = 'all') {
 
   allLessons.forEach(lec => {
     const isCompleted = progress.completed.includes(lec.id);
-    const isLocked = currentRole !== 'admin' && progress.locked.includes(lec.id);
+    const isLocked = progress.locked.includes(lec.id);
     const hasContent = lec.videoUrl && lec.videoUrl.trim() !== '';
     let state = isLocked ? 'locked' : (isCompleted ? 'completed' : 'available');
 
@@ -318,7 +319,12 @@ themeToggle.addEventListener('click', () => {
 
 // ── LOGOUT ──
 document.getElementById('logoutBtn').addEventListener('click', () => {
-  if (confirm('هل تريد تسجيل الخروج؟')) { localStorage.clear(); location.href = 'login.html'; }
+  if (confirm(`هل تريد تسجيل الخروج؟`)) {
+    localStorage.removeItem(`excelPro_user`);
+    localStorage.removeItem(`excelPro_role`);
+    localStorage.removeItem(`excelPro_access_until`);
+    location.href = `login.html`;
+  }
 });
 </script>
 </body>
