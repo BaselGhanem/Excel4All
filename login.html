@@ -3,252 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
 <title>تسجيل الدخول - Excel Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --teal:#099999;--teal-light:#0bbdbd;--teal-dark:#077777;
-  --teal-glow:rgba(9,153,153,.35);--teal-subtle:rgba(9,153,153,.08);
-  --bg:#080c10;--bg-2:#0d1117;--surface:#141c25;--surface-2:#1a2433;
-  --border:rgba(255,255,255,.07);--border-teal:rgba(9,153,153,.25);
-  --text-primary:#f0f4f8;--text-secondary:#8fa3b8;--text-muted:#4a6075;
-  --gold:#d4a843;--radius-lg:24px;--radius-md:16px;
-  --transition:.35s cubic-bezier(.25,.46,.45,.94);--transition-fast:.18s ease;
-}
-[data-theme="light"]{
-  --bg:#f0f4f8;--bg-2:#e8eef4;--surface:#fff;--surface-2:#f5f8fb;
-  --border:rgba(0,0,0,.08);--border-teal:rgba(9,153,153,.2);
-  --text-primary:#0d1117;--text-secondary:#4a6075;--text-muted:#8fa3b8;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{direction:rtl}
-body{font-family:'Almarai',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:background .35s,color .35s}
-::selection{background:var(--teal);color:#fff}
-
-/* BG */
-.bg-grid{position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;mask-image:radial-gradient(ellipse 70% 70% at center,black 20%,transparent 75%)}
-.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none}
-.orb-1{width:500px;height:500px;background:var(--teal);opacity:.06;top:-100px;right:-100px}
-.orb-2{width:400px;height:400px;background:var(--teal);opacity:.04;bottom:-100px;left:-100px}
-
-/* NAV TOP-BAR */
-.top-bar{position:fixed;top:0;right:0;left:0;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;background:rgba(8,12,16,.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);z-index:100}
-[data-theme="light"] .top-bar{background:rgba(240,244,248,.8)}
-.logo{display:flex;align-items:center;gap:10px;color:var(--teal);font-weight:800;font-size:1.2rem;text-decoration:none}
-.logo-box{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;font-weight:800}
-.theme-btn{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--transition-fast)}
-.theme-btn:hover{border-color:var(--teal);color:var(--teal)}
-
-/* LOGIN BOX */
-.login-wrap{position:relative;z-index:10;width:100%;max-width:480px;padding:24px;animation:slideUp .7s cubic-bezier(.25,.46,.45,.94) both}
-@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-
-.login-card{background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:48px 44px;box-shadow:0 40px 120px rgba(0,0,0,.5);position:relative;overflow:hidden}
-.login-card::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent)}
-
-.login-logo{display:flex;flex-direction:column;align-items:center;margin-bottom:36px}
-.login-logo-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;font-weight:800;box-shadow:0 8px 32px var(--teal-glow);margin-bottom:16px}
-.login-logo h1{font-size:1.6rem;font-weight:800;margin-bottom:6px}
-.login-logo p{color:var(--text-secondary);font-size:.9rem;font-weight:400;text-align:center}
-
-/* FORM */
-.form-group{margin-bottom:20px}
-.form-label{display:block;font-size:.85rem;font-weight:700;color:var(--text-secondary);margin-bottom:8px}
-.form-input{width:100%;padding:14px 18px;border-radius:var(--radius-md);border:1.5px solid var(--border);background:var(--surface-2);color:var(--text-primary);font-family:'Almarai',sans-serif;font-size:.95rem;transition:var(--transition-fast);outline:none}
-.form-input:focus{border-color:var(--teal);background:var(--bg-2);box-shadow:0 0 0 4px rgba(9,153,153,.1)}
-.form-input::placeholder{color:var(--text-muted)}
-
-.password-wrap{position:relative}
-.password-wrap .form-input{padding-left:48px}
-.pw-toggle{position:absolute;left:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1rem;padding:4px;transition:color var(--transition-fast)}
-.pw-toggle:hover{color:var(--teal)}
-
-.btn-login{width:100%;padding:16px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:#fff;font-family:'Almarai',sans-serif;font-size:1rem;font-weight:700;border:none;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;margin-top:8px}
-.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--teal-glow)}
-.btn-login:active{transform:translateY(0)}
-.btn-login.loading .btn-text{opacity:0}
-.btn-login .btn-spinner{position:absolute;inset:0;display:none;align-items:center;justify-content:center}
-.btn-login.loading .btn-spinner{display:flex}
-.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ERROR/SUCCESS */
-.alert{padding:12px 18px;border-radius:var(--radius-md);font-size:.88rem;font-weight:700;margin-bottom:20px;display:none;align-items:center;gap:10px}
-.alert.show{display:flex}
-.alert-error{background:rgba(220,60,60,.1);border:1px solid rgba(220,60,60,.25);color:#ff6b6b}
-.alert-success{background:rgba(9,153,153,.1);border:1px solid var(--border-teal);color:var(--teal)}
-
-/* HINT */
-.login-hint{margin-top:28px;padding-top:24px;border-top:1px solid var(--border);text-align:center}
-.login-hint p{font-size:.8rem;color:var(--text-muted);margin-bottom:12px;font-weight:400}
-
-/* BACK */
-.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--text-muted);font-size:.85rem;text-decoration:none;margin-bottom:24px;transition:color var(--transition-fast)}
-.back-link:hover{color:var(--teal)}
-
-/* MOBILE */
-@media(max-width:480px){
-  .top-bar{padding:0 20px}
-  .login-card{padding:36px 24px;border-radius:20px}
-  .login-wrap{padding:16px}
-}
+:root{--teal:#099999;--teal-dark:#077777;--bg:#080c10;--surface:#141c25;--surface-2:#1a2433;--border:rgba(255,255,255,.08);--text:#f0f4f8;--muted:#8fa3b8;--danger:#ff6b6b}
+*{box-sizing:border-box;margin:0;padding:0}html{direction:rtl}
+body{font-family:'Almarai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:24px;overflow-x:hidden}
+.bg{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 85% 10%,rgba(9,153,153,.12),transparent 32%),radial-gradient(circle at 10% 90%,rgba(9,153,153,.07),transparent 35%),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:auto,auto,56px 56px,56px 56px}
+.wrap{position:relative;z-index:1;width:min(100%,460px)}
+.brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:22px;font-weight:800;color:#12b5b5}
+.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:#fff;box-shadow:0 10px 30px rgba(9,153,153,.25)}
+.card{background:rgba(20,28,37,.94);border:1px solid var(--border);border-radius:28px;padding:38px;box-shadow:0 35px 100px rgba(0,0,0,.45);backdrop-filter:blur(18px)}
+h1{font-size:1.6rem;text-align:center;margin-bottom:8px}.subtitle{text-align:center;color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:26px}
+.validity{border:1px solid rgba(9,153,153,.24);background:rgba(9,153,153,.07);border-radius:17px;padding:15px 16px;margin-bottom:22px}
+.validity-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.validity-title{font-size:.82rem;font-weight:800;color:#16bcbc}
+.days{font-size:.8rem;font-weight:800;color:#fff;background:rgba(9,153,153,.18);padding:6px 10px;border-radius:999px;white-space:nowrap}
+.validity p{font-size:.78rem;color:var(--muted);line-height:1.75}.bar{height:7px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin-top:12px}
+.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--teal-dark),#13baba);border-radius:999px;transition:width .4s ease}
+label{display:block;font-size:.84rem;font-weight:700;color:var(--muted);margin-bottom:8px}.password-wrap{position:relative}
+input{width:100%;height:54px;border-radius:15px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--text);font:inherit;font-size:1rem;padding:0 16px 0 52px;outline:none;direction:ltr;text-align:left}
+input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(9,153,153,.1)}.eye{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1rem}
+button.login{width:100%;height:54px;border:0;border-radius:15px;margin-top:16px;background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:#fff;font:inherit;font-weight:800;cursor:pointer;transition:.2s ease}
+button.login:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(9,153,153,.22)}button.login:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.alert{display:none;margin-top:15px;padding:12px 14px;border-radius:13px;font-size:.82rem;font-weight:700;line-height:1.6}.alert.show{display:block}
+.alert.error{background:rgba(255,107,107,.09);border:1px solid rgba(255,107,107,.25);color:var(--danger)}
+.alert.expired{background:rgba(212,168,67,.09);border:1px solid rgba(212,168,67,.25);color:#f0c060}
+.note{text-align:center;color:#587086;font-size:.72rem;margin-top:18px;line-height:1.7}
+@media(max-width:520px){body{padding:16px}.card{padding:30px 22px;border-radius:22px}.validity-top{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
-
-<div class="bg-grid"></div>
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-
-<div class="top-bar">
-  <a href="index.html" class="logo">
-    <div class="logo-box">X</div>
-    Excel Pro
-  </a>
-  <button class="theme-btn" id="themeToggle" title="تغيير المظهر">🌙</button>
-</div>
-
-<div class="login-wrap">
-  <a href="index.html" class="back-link">← العودة للرئيسية</a>
-
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-logo-icon">X</div>
-      <h1>أهلاً بك</h1>
-      <p>سجّل دخولك للوصول إلى دورة Excel الاحترافية</p>
-    </div>
-
-    <div class="alert alert-error" id="alertError">
-      <span>⚠</span>
-      <span id="errorMsg">كلمة المرور غير صحيحة. حاول مرة أخرى.</span>
-    </div>
-    <div class="alert alert-success" id="alertSuccess">
-      <span>✓</span>
-      <span>تم تسجيل الدخول بنجاح! جاري توجيهك...</span>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" for="username">اسم المستخدم</label>
-      <input type="text" id="username" class="form-input" placeholder="أدخل اسمك هنا" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label class="form-label" for="password">كلمة المرور</label>
-      <div class="password-wrap">
-        <input type="password" id="password" class="form-input" placeholder="أدخل كلمة المرور" autocomplete="off">
-        <button class="pw-toggle" id="pwToggle" type="button">👁</button>
+<div class="bg"></div>
+<main class="wrap">
+  <div class="brand"><div class="logo">X</div><span>Excel Pro</span></div>
+  <section class="card">
+    <h1>الدخول إلى الدورة</h1>
+    <p class="subtitle">استخدم كلمة المرور الخاصة بالدورة للوصول إلى المحتوى</p>
+    <div class="validity">
+      <div class="validity-top">
+        <span class="validity-title">صلاحية الوصول: شهر واحد</span>
+        <span class="days" id="daysBadge">--</span>
       </div>
+      <p>من 24-09-2026 إلى 24-10-2026. المدة المتبقية تتناقص يوما بعد يوم.</p>
+      <div class="bar"><span id="validityBar" style="width:100%"></span></div>
     </div>
-
-    <button class="btn-login" id="loginBtn" type="button">
-      <span class="btn-text">دخول إلى الدورة ←</span>
-      <span class="btn-spinner"><div class="spinner"></div></span>
-    </button>
-    
-    <button class="btn-login" id="guestBtn" type="button" style="background: transparent; border: 1.5px solid var(--border); color: var(--text-secondary); margin-top: 12px; box-shadow: none;">
-      <span class="btn-text">الدخول كضيف (المحاضرة الأولى فقط)</span>
-    </button>
-  </div>
-</div>
-
+    <label for="password">كلمة المرور</label>
+    <div class="password-wrap">
+      <input id="password" type="password" autocomplete="current-password" placeholder="Password">
+      <button class="eye" id="eyeBtn" type="button" aria-label="إظهار أو إخفاء كلمة المرور">👁</button>
+    </div>
+    <button class="login" id="loginBtn" type="button">دخول إلى الدورة</button>
+    <div class="alert error" id="errorAlert">كلمة المرور غير صحيحة.</div>
+    <div class="alert expired" id="expiredAlert">انتهت صلاحية الوصول لهذه الدورة بتاريخ 24-10-2026.</div>
+    <div class="note">لا يوجد دخول ضيف أو حساب إداري منفصل. صلاحية الوصول مرتبطة بالتاريخ المحدد أعلاه.</div>
+  </section>
+</main>
 <script>
-// Theme
-const toggle = document.getElementById('themeToggle');
-let dark = true;
-toggle.addEventListener('click', () => {
-  dark = !dark;
-  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-  toggle.textContent = dark ? '🌙' : '☀️';
-});
+const ACCESS_PASSWORD = `Excel`;
+const ACCESS_START = Date.parse(`2026-09-24T00:00:00+03:00`);
+const ACCESS_END = Date.parse(`2026-10-24T23:59:59+03:00`);
+const ACCESS_END_DAY = Date.UTC(2026, 9, 24);
+const ACCESS_TOTAL_DAYS = 30;
 
-// Password toggle
-const pwInput = document.getElementById('password');
-document.getElementById('pwToggle').addEventListener('click', function() {
-  const isText = pwInput.type === 'text';
-  pwInput.type = isText ? 'password' : 'text';
-  this.textContent = isText ? '👁' : '🙈';
-});
+const passwordInput = document.getElementById(`password`);
+const loginBtn = document.getElementById(`loginBtn`);
+const errorAlert = document.getElementById(`errorAlert`);
+const expiredAlert = document.getElementById(`expiredAlert`);
+const daysBadge = document.getElementById(`daysBadge`);
+const validityBar = document.getElementById(`validityBar`);
 
-// Login Functions
-const loginBtn = document.getElementById('loginBtn');
-const guestBtn = document.getElementById('guestBtn');
-const alertError = document.getElementById('alertError');
-const alertSuccess = document.getElementById('alertSuccess');
-const errorMsg = document.getElementById('errorMsg');
-
-function hideAlerts() {
-  alertError.classList.remove('show');
-  alertSuccess.classList.remove('show');
+function jordanDateDayValue() {
+  const jordanNow = new Date(Date.now() + (3 * 60 * 60 * 1000));
+  return Date.UTC(jordanNow.getUTCFullYear(), jordanNow.getUTCMonth(), jordanNow.getUTCDate());
 }
 
-// Admin/User Login
+function accessState() {
+  const now = Date.now();
+  if (now < ACCESS_START) return `not-started`;
+  if (now > ACCESS_END) return `expired`;
+  return `active`;
+}
+
+function updateValidityUI() {
+  const state = accessState();
+  const today = jordanDateDayValue();
+  const daysLeft = Math.max(0, Math.round((ACCESS_END_DAY - today) / 86400000));
+  const remainingPct = Math.max(0, Math.min(100, (daysLeft / ACCESS_TOTAL_DAYS) * 100));
+  daysBadge.textContent = daysLeft === 0 ? `آخر يوم` : `متبقي ` + daysLeft + ` يوم`;
+  validityBar.style.width = remainingPct + `%`;
+
+  if (state === `expired`) {
+    daysBadge.textContent = `انتهت الصلاحية`;
+    validityBar.style.width = `0%`;
+    loginBtn.disabled = true;
+    expiredAlert.classList.add(`show`);
+  } else if (state === `not-started`) {
+    daysBadge.textContent = `تبدأ 24-09-2026`;
+    loginBtn.disabled = true;
+  }
+}
+
+function clearAlerts() {
+  errorAlert.classList.remove(`show`);
+  expiredAlert.classList.remove(`show`);
+}
+
 function doLogin() {
-  hideAlerts();
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
-
-  if (!user) {
-    errorMsg.textContent = 'من فضلك أدخل اسم المستخدم.';
-    alertError.classList.add('show');
+  clearAlerts();
+  if (accessState() !== `active`) {
+    updateValidityUI();
     return;
   }
-  if (!pass) {
-    errorMsg.textContent = 'من فضلك أدخل كلمة المرور.';
-    alertError.classList.add('show');
-    return;
-  }
-  if (pass !== '2026' && pass !== '2025') {
-    errorMsg.textContent = 'كلمة المرور غير صحيحة. حاول مرة أخرى.';
-    alertError.classList.add('show');
-    // Shake animation
-    const card = document.querySelector('.login-card');
-    card.style.animation = 'shake .4s ease';
-    setTimeout(() => card.style.animation = '', 400);
+  if (passwordInput.value !== ACCESS_PASSWORD) {
+    errorAlert.classList.add(`show`);
+    passwordInput.focus();
     return;
   }
 
-  loginBtn.classList.add('loading');
-  const isAdmin = pass === '2025';
-  localStorage.setItem('excelPro_user', user);
-  localStorage.setItem('excelPro_role', isAdmin ? 'admin' : 'user');
-  if (!localStorage.getItem('excelPro_progress')) {
-    localStorage.setItem('excelPro_progress', JSON.stringify({ completed: [], locked: isAdmin ? [] : [2,3,4,5,6,7,8,9,10] }));
+  localStorage.setItem(`excelPro_user`, `Excel`);
+  localStorage.setItem(`excelPro_role`, `user`);
+  localStorage.setItem(`excelPro_access_until`, `2026-10-24T23:59:59+03:00`);
+  if (!localStorage.getItem(`excelPro_progress`)) {
+    localStorage.setItem(`excelPro_progress`, JSON.stringify({ completed: [], locked: [2,3,4,5,6,7,8,9,10,11] }));
   }
-  alertSuccess.classList.add('show');
-  setTimeout(() => { location.href = 'dashboard.html'; }, 1200);
+  window.location.href = `dashboard.html`;
 }
 
-loginBtn.addEventListener('click', doLogin);
-document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-
-// Guest Login
-guestBtn.addEventListener('click', () => {
-  hideAlerts();
-  localStorage.setItem('excelPro_user', 'ضيف');
-  localStorage.setItem('excelPro_role', 'guest');
-  // قفل جميع المحاضرات عدا الأولى للضيف
-  localStorage.setItem('excelPro_progress', JSON.stringify({ completed: [], locked: [2,3,4,5,6,7,8,9,10] }));
-  
-  guestBtn.classList.add('loading');
-  alertSuccess.innerHTML = '<span>✓</span><span>جاري الدخول كضيف...</span>';
-  alertSuccess.classList.add('show');
-  
-  setTimeout(() => { location.href = 'dashboard.html'; }, 1000);
+document.getElementById(`eyeBtn`).addEventListener(`click`, () => {
+  const show = passwordInput.type === `password`;
+  passwordInput.type = show ? `text` : `password`;
+  document.getElementById(`eyeBtn`).textContent = show ? `🙈` : `👁`;
 });
-
-// Add shake keyframes
-const style = document.createElement('style');
-style.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}';
-document.head.appendChild(style);
-
-// Check if already logged in
-if (localStorage.getItem('excelPro_user')) {
-  const goBtn = document.createElement('a');
-  goBtn.href = 'dashboard.html';
-  goBtn.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;color:var(--teal);font-size:.88rem;font-weight:700;text-decoration:none';
-  goBtn.innerHTML = '↩ العودة إلى الدورة';
-  document.querySelector('.login-card').appendChild(goBtn);
-}
+loginBtn.addEventListener(`click`, doLogin);
+passwordInput.addEventListener(`keydown`, event => {
+  if (event.key === `Enter`) doLogin();
+});
+updateValidityUI();
 </script>
 </body>
 </html>
